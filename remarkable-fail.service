@@ -1,0 +1,7 @@
+[Unit]
+Description=reMarkable fail application
+
+[Service]
+ExecStart=/usr/sbin/remarkable-fail.sh
+Restart=on-failure
+
