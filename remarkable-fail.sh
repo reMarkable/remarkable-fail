@@ -8,7 +8,11 @@ systemctl start dhcpcd
 systemctl enable wpa_supplicant@wlan0
 systemctl start wpa_supplicant@wlan0
 
-while true; do
+tries=0
+while [ "$tries" -lt "180" ]; do
+    echo "try number $tries"
+    tries=$((tries + 1))
+
     /usr/bin/update_engine_client -check_for_update
     sleep 30
 
