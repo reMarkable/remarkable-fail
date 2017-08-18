@@ -1,8 +1,24 @@
 #!/bin/bash
 
+########################################################################
+# Mark current partition as bad, so we might be able to boot the old one
+ACTIVEPART=$(fw_printenv -n active_partition)
+CURDEV="$(rootdev)"
+CURPART="${CURDEV: -1}"
+
+if [[ "$ACTIVEPART" == "$CURPART" ]]; then
+    fw_setenv upgrade_available 1
+    fw_setenv bootcount 1
+    systemctl reboot
+fi
+
+###################################
 # (try to) display the crash splash
 touch /tmp/remarkable-crash-reboot
 /usr/bin/remarkable-shutdown
+
+######################
+# Try to get an update
 
 echo 0 > /sys/class/rfkill/rfkill0/soft
 
@@ -25,3 +41,4 @@ while [ "$tries" -lt "180" ]; do
         systemctl reboot
     fi
 done
+
