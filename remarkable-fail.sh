@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# (try to) display the crash splash
+touch /tmp/remarkable-crash-reboot
+/usr/bin/remarkable-shutdown
+
 echo 0 > /sys/class/rfkill/rfkill0/soft
 
 systemctl enable dhcpcd
