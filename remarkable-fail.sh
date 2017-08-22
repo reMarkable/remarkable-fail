@@ -6,22 +6,20 @@ touch /tmp/remarkable-crash-reboot
 /usr/bin/remarkable-shutdown
 
 ########################################################################
-# Mark current partition as bad, so we might be able to boot the old one
+# Tell u-boot that we're currently failing, so it should fall back to
+# the other partition after the set amount of boot tries.
 ACTIVEPART=$(fw_printenv -n active_partition)
 CURDEV="$(rootdev)"
 CURPART="${CURDEV: -1}"
 
 if [[ "$ACTIVEPART" == "$CURPART" ]]; then
     fw_setenv upgrade_available 1
-    fw_setenv bootcount 1
     systemctl reboot
-else
-    fw_setenv upgrade_available 0
-    fw_setenv bootcount 1
 fi
 
-######################
-# Try to get an update
+#########################################################
+# Both the fallback and the active is apparently failing,
+# so try to get an update.
 
 echo 0 > /sys/class/rfkill/rfkill0/soft
 
@@ -45,3 +43,4 @@ while [ "$tries" -lt "180" ]; do
     fi
 done
 
+/sbin/poweroff
