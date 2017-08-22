@@ -12,6 +12,12 @@ ACTIVEPART=$(fw_printenv -n active_partition)
 CURDEV="$(rootdev)"
 CURPART="${CURDEV: -1}"
 
+if [[ "$CURPART" == "2" ]]; then
+    fsck -y /dev/mmcblk1p3
+else
+    fsck -y /dev/mmcblk1p2
+fi
+
 if [[ "$ACTIVEPART" == "$CURPART" ]]; then
     fw_setenv upgrade_available 1
     systemctl reboot
