@@ -73,11 +73,14 @@ while [ "$CRASHNUM" -lt "180" ]; do
     /usr/bin/update_engine_client -check_for_update
     sleep 30
 
+    CURRENTTIME="$(date +%s)"
+    ELAPSED="$(($CURRENTTIME - $LASTCRASHTIME))"
+
     UPDATE_STATUS="$(/usr/bin/update_engine_client -check_for_update)"
     if [[ $UPDATE_STATUS == *"REBOOT"* ]]; then
         echo "We have installed an upgrade"
-        if [[ -z "$(pidof xochitl)" ]]; then
-            echo "Upgraded and application not running, rebooting"
+        if [[ -z "$(pidof xochitl)" ]] && [[ "$ELAPSED" -gt 600 ]]; then
+            echo "Upgraded and application not running normally, rebooting"
             systemctl reboot
         fi
     fi
