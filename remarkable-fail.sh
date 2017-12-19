@@ -53,6 +53,16 @@ else
     fsck -y /dev/mmcblk1p2
 fi
 
+if [ "$CRASHNUM" -gt "5" ]; then
+    if [[ "$ACTIVEPART" == "$CURPART" ]] && [[ -n "$(pidof xochitl)" ]]; then
+        echo "Unable to fetch upgrade, and we have a fallback to try, falling back"
+        fw_setenv upgrade_available 1
+        systemctl -f reboot
+    fi
+
+    exit 0;
+fi
+
 #########################################################
 # Both the fallback and the active is apparently failing,
 # so try to get an update.
