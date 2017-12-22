@@ -73,10 +73,10 @@ echo 0 > /sys/class/rfkill/rfkill0/soft
 systemctl enable dhcpcd
 systemctl start dhcpcd
 
-systemctl enable wpa_supplicant@wlan0
-systemctl start wpa_supplicant@wlan0
+#systemctl enable wpa_supplicant@wlan0
+#systemctl start wpa_supplicant@wlan0
 
-while [ "$CRASHNUM" -lt "180" ]; do
+while [ "$CRASHNUM" -lt "5" ]; do
     echo "Force upgrade try number $CRASHNUM"
     CRASHNUM=$((CRASHNUM + 1))
 
