@@ -37,6 +37,8 @@ echo "$CURRENTTIME" > /tmp/lastcrashtime
 # (try to) display the crash splash
 echo "Showing crash screen"
 touch /tmp/remarkable-crash-reboot
+
+# A bit misleading name, but it just shows a splash screen on the display
 /usr/bin/remarkable-shutdown
 
 ########################################################################
@@ -73,9 +75,6 @@ echo 0 > /sys/class/rfkill/rfkill0/soft
 systemctl enable dhcpcd
 systemctl start dhcpcd
 
-#systemctl enable wpa_supplicant@wlan0
-#systemctl start wpa_supplicant@wlan0
-
 while [ "$CRASHNUM" -lt "5" ]; do
     echo "Force upgrade try number $CRASHNUM"
     CRASHNUM=$((CRASHNUM + 1))
@@ -92,6 +91,10 @@ while [ "$CRASHNUM" -lt "5" ]; do
         if [[ -z "$(pidof xochitl)" ]] && [[ "$ELAPSED" -gt 600 ]]; then
             echo "Upgraded and application not running normally, rebooting"
             systemctl reboot
+
+            # To make sure we (the script) aren't just immediately restarted when waiting for reboot
+            sleep 600
+            exit 0
         fi
     fi
 
@@ -103,6 +106,10 @@ while [ "$CRASHNUM" -lt "5" ]; do
                 echo "Unable to fetch upgrade, and we have a fallback to try, falling back"
                 fw_setenv upgrade_available 1
                 systemctl reboot
+
+                # To make sure we (the script) aren't just immediately restarted when waiting for reboot
+                sleep 600
+                exit 0
             fi
         fi
     fi
