@@ -118,6 +118,15 @@ while [ "$CRASHNUM" -lt "5" ]; do
         echo "Application back up and running, exiting"
         exit 0
     fi
+
+    BATTERYPERCENT="$(cat /sys/class/power_supply/bq27441/capacity)"
+    # Check battery level
+    if [ "$BATTERYPERCENT" -lt "5" ]; then
+        echo "Out of battery, shutting down"
+        /sbin/poweroff
+        sleep 600
+        exit 0
+    fi
 done
 
 echo "Failed to do anything, just shutting down"
