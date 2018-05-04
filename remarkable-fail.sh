@@ -101,16 +101,14 @@ while [ "$CRASHNUM" -lt "5" ]; do
 
     # Not on wifi, check if there's a fallback partition we can try
     if [[ $UPDATE_STATUS == *"IDLE"* ]] || [[ $UPDATE_STATUS == *"ERROR"* ]]; then
-        if [ "$tries" -gt "1" ]; then
-            if [[ "$ACTIVEPART" == "$CURPART" ]] && [[ -n "$(pidof xochitl)" ]]; then
-                echo "Unable to fetch upgrade, and we have a fallback to try, falling back"
-                fw_setenv upgrade_available 1
-                systemctl reboot
+        if [[ "$ACTIVEPART" == "$CURPART" ]] && [[ -n "$(pidof xochitl)" ]]; then
+            echo "Unable to fetch upgrade, and we have a fallback to try, falling back"
+            fw_setenv upgrade_available 1
+            systemctl reboot
 
-                # To make sure we (the script) aren't just immediately restarted when waiting for reboot
-                sleep 600
-                exit 0
-            fi
+            # To make sure we (the script) aren't just immediately restarted when waiting for reboot
+            sleep 600
+            exit 0
         fi
     fi
 
