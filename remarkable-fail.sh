@@ -56,7 +56,7 @@ else
 fi
 
 if [ "$CRASHNUM" -gt "5" ]; then
-    if [[ "$ACTIVEPART" == "$CURPART" ]] && [[ -n "$(pidof xochitl)" ]]; then
+    if [[ "$ACTIVEPART" == "$CURPART" ]] && [[ -z "$(pidof xochitl)" ]]; then
         echo "Unable to fetch upgrade, and we have a fallback to try, falling back"
         fw_setenv upgrade_available 1
         systemctl -f reboot
@@ -101,7 +101,7 @@ while [ "$CRASHNUM" -lt "5" ]; do
 
     # Not on wifi, check if there's a fallback partition we can try
     if [[ $UPDATE_STATUS == *"IDLE"* ]] || [[ $UPDATE_STATUS == *"ERROR"* ]]; then
-        if [[ "$ACTIVEPART" == "$CURPART" ]] && [[ -n "$(pidof xochitl)" ]]; then
+        if [[ "$ACTIVEPART" == "$CURPART" ]] && [[ -z "$(pidof xochitl)" ]]; then
             echo "Unable to fetch upgrade, and we have a fallback to try, falling back"
             fw_setenv upgrade_available 1
             systemctl reboot
