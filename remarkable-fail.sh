@@ -121,7 +121,7 @@ while [ "$CRASHNUM" -lt "5" ]; do
 
     BATTERYPERCENT="$(cat /sys/class/power_supply/bq27441/capacity)"
     # Check battery level
-    if [ "$BATTERYPERCENT" -lt "5" ]; then
+    if [ "$BATTERYPERCENT" -lt "11" ]; then
         echo "Out of battery, shutting down"
         /sbin/poweroff
         sleep 600
