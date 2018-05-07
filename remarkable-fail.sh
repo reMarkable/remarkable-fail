@@ -85,7 +85,7 @@ while [ "$CRASHNUM" -lt "5" ]; do
     CURRENTTIME="$(date +%s)"
     ELAPSED="$(($CURRENTTIME - $LASTCRASHTIME))"
 
-    UPDATE_STATUS="$(/usr/bin/update_engine_client -check_for_update)"
+    UPDATE_STATUS="$(/usr/bin/update_engine_client -status)"
     if [[ $UPDATE_STATUS == *"REBOOT"* ]]; then
         echo "We have installed an upgrade"
         if [[ -z "$(pidof xochitl)" ]] && [[ "$ELAPSED" -gt 600 ]]; then
