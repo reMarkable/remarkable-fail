@@ -74,6 +74,7 @@ echo 0 > /sys/class/rfkill/rfkill0/soft
 
 systemctl enable dhcpcd
 systemctl start dhcpcd
+systemctl start update-engine
 
 while [ "$CRASHNUM" -lt "5" ]; do
     echo "Force upgrade try number $CRASHNUM"
