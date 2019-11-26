@@ -50,9 +50,9 @@ CURPART="${CURDEV: -1}"
 
 echo "Running fsck"
 if [[ "$CURPART" == "2" ]]; then
-    fsck -y /dev/mmcblk1p3
+    fsck -y /dev/mmcblk2p3
 else
-    fsck -y /dev/mmcblk1p2
+    fsck -y /dev/mmcblk2p2
 fi
 
 if [ "$CRASHNUM" -gt "5" ]; then
