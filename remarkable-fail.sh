@@ -35,6 +35,8 @@ if [[ -n "$LASTCRASHTIME" ]]; then
         rm -f /tmp/lastcrashtime
         exit 0
     fi
+else
+    LASTCHRASHTIME=${CURRENTTIME}
 fi
 
 echo "$CURRENTTIME" > /tmp/lastcrashtime
