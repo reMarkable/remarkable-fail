@@ -7,9 +7,15 @@ set +o noclobber
 
 flock -n 123
 
-CRASHNUM="$(cat /tmp/crashnum)"
-CRASHNUM="$((CRASHNUM + 1))"
-echo "$CRASHNUM" > /tmp/crashnum
+# Read/create /tmp/crashnum and increment it
+CRASHNUM=
+if [[ -w /tmp/crashnum ]]; then
+    CRASHNUM="$(cat /tmp/crashnum)"
+    CRASHNUM="$((${CRASHNUM} + 1))"
+else
+    CRASHNUM=1
+fi
+echo "${CRASHNUM}" > /tmp/crashnum
 
 echo "We've crashed $CRASHNUM times"
 
