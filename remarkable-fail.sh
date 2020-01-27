@@ -78,7 +78,7 @@ fi
 # so try to get an update.
 
 echo "Trying to bring up wifi"
-echo 0 > /sys/class/rfkill/rfkill0/soft
+echo 0 > /sys/class/rfkill/rfkill*/soft
 
 systemctl enable dhcpcd
 systemctl start dhcpcd
