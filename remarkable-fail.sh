@@ -1,5 +1,11 @@
 #!/bin/bash
 
+source /usr/lib/remarkable-fail/paths-config.sh
+
+if [[ -z "$ROOTFS1" ]] || [[ -z "$ROOTFS2" ]] || [[ -z "$BATTERY_PATH" ]] ; then
+    echo "FATAL: paths to system files not set!"
+fi
+
 # Subshell for the flock lockfile
 (
 
@@ -50,9 +56,9 @@ CURPART="${CURDEV: -1}"
 
 echo "Running fsck"
 if [[ "$CURPART" == "2" ]]; then
-    fsck -y /dev/mmcblk1p3
+    fsck -y "$ROOTFS2"
 else
-    fsck -y /dev/mmcblk1p2
+    fsck -y "$ROOTFS1"
 fi
 
 if [ "$CRASHNUM" -gt "5" ]; then
@@ -118,7 +124,7 @@ while [ "$CRASHNUM" -lt "5" ]; do
         exit 0
     fi
 
-    BATTERYPERCENT="$(cat /sys/class/power_supply/bq27441/capacity)"
+    BATTERYPERCENT="$(cat $BATTERY_PATH)"
     # Check battery level
     if [ "$BATTERYPERCENT" -lt "11" ]; then
         echo "Out of battery, shutting down"
