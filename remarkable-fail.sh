@@ -36,9 +36,8 @@ echo "$CURRENTTIME" > /tmp/lastcrashtime
 ###################################
 # (try to) display the crash splash
 echo "Showing crash screen"
-touch /tmp/remarkable-crash-reboot
-
 # A bit misleading name, but it just shows a splash screen on the display
+export REMARKABLE_SHUTDOWN_STATE="crash"
 /usr/bin/remarkable-shutdown
 
 ########################################################################
