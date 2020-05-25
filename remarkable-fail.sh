@@ -41,13 +41,6 @@ fi
 
 echo "$CURRENTTIME" > /tmp/lastcrashtime
 
-###################################
-# (try to) display the crash splash
-echo "Showing crash screen"
-# A bit misleading name, but it just shows a splash screen on the display
-export REMARKABLE_SHUTDOWN_STATE="crash"
-/usr/bin/remarkable-shutdown
-
 ########################################################################
 # Tell u-boot that we're currently failing, so it should fall back to
 # the other partition after the set amount of boot tries.
